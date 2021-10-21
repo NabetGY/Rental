@@ -4,6 +4,7 @@ node_modules
 /dist
 
 .pyc
+.env
 
 # local env files
 .env.local
