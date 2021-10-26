@@ -18,10 +18,20 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from users.views import Login, Logout
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+
+    #path('user/create/', UserAPI.as_view(), name = 'api_create_user'),
+    path('user/login/', Login.as_view(), name = 'login'),
+    path('user/logout/', Logout.as_view(), name = 'logout'),
+    path('user/', include( 'users.routers' )),
+
+
+
 
 ]
 
