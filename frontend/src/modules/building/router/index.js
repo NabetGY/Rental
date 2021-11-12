@@ -15,8 +15,8 @@ export default {
             component: () => import(/* webpackChunkName: "publication" */ '@/modules/building/views/Publication.vue'),
         },
         {
-            path: '/registerPost',
-            name: 'registerPost',
+            path: '/register-post',
+            name: 'register-post',
             component: () => import(/* webpackChunkName: "registerPost" */ '@/modules/building/views/Register.vue'),
         },
         {

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import authRouter from '../modules/auth/router'
-import authBuilding from '../modules/building/router'
+/* import isAuthenticatedGuard from '../modules/auth/router/auth-guard'
+ */import authBuilding from '../modules/building/router'
 import rentalRouter from '../modules/rental/router'
 
 
@@ -11,7 +12,8 @@ const routes = [
   },
   {
     path: '/building',
-    ...authBuilding
+/*     beforeEnter: [ isAuthenticatedGuard ],
+ */    ...authBuilding
   },
   {
     path: '/',

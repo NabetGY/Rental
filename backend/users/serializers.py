@@ -2,22 +2,32 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from users.models import UserProfile
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
-class UserTokenSerializer( serializers.ModelSerializer ):
+class CustomTokenObtainSerializer( TokenObtainPairSerializer ):
+
     class Meta:
         model = UserProfile
-        fields = ('email', 'username')
+        fields = ( 'email', 'username' )
 
-class UserSerializer(serializers.ModelSerializer):
-    
+
+class CustomUserSerializer( serializers.ModelSerializer ):
+
     class Meta:
-        model =  UserProfile
+        model = UserProfile
+        fields = ( 'username', 'email' )
+
+
+class UserSerializer( serializers.ModelSerializer ):
+
+    class Meta:
+        model = UserProfile
         fields = '__all__'
 
-    def create(self, validated_data):
+    def create( self, validated_data ):
         instance = UserProfile( **validated_data )
-        instance.set_password( validated_data.get('password') )
+        instance.set_password( validated_data.get( 'password' ) )
         instance.save()
         return instance
 
@@ -29,12 +39,9 @@ class UserSerializer(serializers.ModelSerializer):
         else:
             return data '''
 
-class UpdateUserSerializer(serializers.ModelSerializer):
-    
+
+class UpdateUserSerializer( serializers.ModelSerializer ):
+
     class Meta:
-        model =  UserProfile
+        model = UserProfile
         fields = ( 'username', 'email' )
-
-
-
-

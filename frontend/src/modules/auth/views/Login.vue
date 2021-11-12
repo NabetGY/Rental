@@ -1,6 +1,6 @@
 <template>
 
-    <form class="login-form">
+    <form class="login-form" @submit.prevent="onSubmit">
 
         <div class="text-center">
 			<img class="avatar mb-3" src="@/assets/avatar.svg" alt="Avatar">
@@ -9,12 +9,12 @@
         <h2 class="text-center mb-3">Iniciar Sesion</h2>    
 
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Correo electronico</label>
+            <input v-model="loginForm.username" type="text" class="form-control" id="floatingInput" placeholder="Nombre de usuario">
+            <label for="floatingInput">Nombre de usuario</label>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input v-model="loginForm.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Contraseña</label>
         </div>
 
@@ -31,12 +31,54 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import useAuth from "../composables/useAuth"
+import Swal from 'sweetalert2'
 
-export default {
 
-    setup() {
+export default{
 
+    setup() {    
 
+        const router = useRouter()
+
+        const { loginUser } = useAuth()
+
+        const loginForm = ref(
+            {
+                username: "",
+                password: "",
+            }
+        )
+
+        return {
+            loginForm,
+            onSubmit: async() => {
+               const { ok, message } = await loginUser( loginForm.value )
+               
+               if ( !ok ) {
+                   Swal.fire('Error', message, 'error')
+               } 
+               else  {
+                   Swal.fire(
+                    {
+                        title:'Inicio Exitoso',
+                        text:'Binevenido a LUMAYO',
+                        icon:'success',
+                        allowEscapeKey:false,
+                        allowOutsideClick:false
+                    }
+                    ).then((result) => 
+                        {
+                            if (result.isConfirmed) {
+                               router.push({ name: 'home' }) 
+                            } 
+                        }
+                    )
+                }
+            },
+        }
     }
 
 }
