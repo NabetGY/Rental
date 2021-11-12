@@ -28,7 +28,7 @@ export const deleteEntry = (state, id) => {
 
 }
 
-export const clearPublications = (state) => {
+export const clearMyPublications = (state) => {
 
     state.myPublications = []
 
