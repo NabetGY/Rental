@@ -22,6 +22,7 @@ env = environ.Env()
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import django_heroku
 
 environ.Env.read_env()
 
@@ -190,5 +191,5 @@ SIMPLE_JWT = {
 }
 
 # Configure Django App for Heroku.
-import django_heroku
+
 django_heroku.settings(locals())
