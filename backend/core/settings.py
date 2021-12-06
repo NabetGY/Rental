@@ -189,3 +189,6 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True
 }
 
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
