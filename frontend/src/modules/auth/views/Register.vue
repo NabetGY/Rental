@@ -5,11 +5,14 @@
                 <div class="row">
                     <div class="mx-auto col-md-6 bg-light card mb-4 mt-4">
                         <div class="mb-3 mt-3">
-                            <input type="file" value="" placeholder="" class="form-control">
+                            <input  @change="onFileChange" type="file" placeholder="" class="form-control" required>
                         </div>
                         <div class="row align-items-center mb-3">
                             <div class="col">
                                 <input v-model="registerForm.username" type="text" placeholder="Nombre de Usuario" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <input v-model="registerForm.number_phone" type="number" placeholder="Numero de telefono" class="form-control" required>
                             </div>
                         </div>
                         <div class="row align-items-center mb-3">
@@ -36,6 +39,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useAuth from "../composables/useAuth"
 import Swal from 'sweetalert2'
+import uploadImage from '../../building/helpers/uploadImage'
 
 
 export default{
@@ -44,19 +48,33 @@ export default{
 
         const router = useRouter()
 
+        let file = ref(null)
+
         const { createUser } = useAuth()
 
         const registerForm = ref(
             {
                 email: "",
                 username: "",
+                number_phone: null,
                 password: "",
+                image_perfil: ""
             }
         )
 
         return {
+            file,
             registerForm,
+            onFileChange: (e) => {
+            let files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+            file = files[0]
+        },
             onSubmit: async() => {
+                const elemento = await uploadImage(file)
+                console.log(elemento)
+                registerForm.value.image_perfil = elemento
                const { ok, message } = await createUser( registerForm.value )
                
                if ( !ok ) {

@@ -19,13 +19,14 @@
             <img :src="image" alt="" height="50"></td>
           <td><strong class="">{{ item.titulo }}</strong></td>
           <td>{{ item.created_data }}</td>
-          <td>${{ item.precio }}</td>
+          <td>{{ numberFormat1.format(item.precio) }}</td>
           <td>
-            <a class="btn btn-primary" href="#">Editar</a>
-            <button
+            <router-link :to="{ name: 'updateRoom', params: { 'id': item.id } }"  href="#">
+              <button class="btn btn-primary">Editar</button>
+            </router-link>
+            <button @click="onDelete(item.id)"
               class="btn btn-danger"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+
             >
               Eliminar
             </button>
@@ -36,57 +37,52 @@
   </div>
 
 
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            Eliminar publicación
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <p>¿Está seguro de eliminar esta publicación?</p>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Cancelar
-          </button>
-          <button type="button" class="btn btn-primary">Si, eliminar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
 import { computed } from "vue";
-
 import { useStore } from "vuex";
+import Swal from 'sweetalert2';
+import useRoom from '../composables/useRoom';
+
 
 
 export default {
   setup() {
     const store = useStore()
-    return {
-      myPublications:computed(() => store.getters['building/getMyItems'])
-    }
+
+    const { deleteRoom } = useRoom()
+
+    const options1 = { style: 'currency', currency: 'COP' };
+    const numberFormat1 = new Intl.NumberFormat('es-CO', options1);
+    const myPublications = computed(() => store.getters['building/getMyItems'])
+/*     const precio = numberFormat1.format(room.value.precio)
+ */    return {
+          myPublications,
+          numberFormat1,
+          onDelete : async( value ) => {
+
+            const { isConfirmed } = await Swal.fire({
+                title: '¿Esta seguro?...',
+                text: 'Una vez borrado no se puede recuperar',
+                showDenyButton: true,
+                confirmButtonText: 'Si, estoy seguro'
+            })
+             if ( isConfirmed ){
+                 new Swal({
+                     title: 'Espere por favor',
+                     allowOutsideClick: false
+                 })
+                Swal.showLoading()
+                const resp = await deleteRoom( value )
+                
+                console.log(resp)
+
+                Swal.fire('Eliminado','', 'success')
+             }
+            
+          },
+        }
   
   },
 };

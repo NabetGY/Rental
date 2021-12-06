@@ -1,7 +1,7 @@
 <template>
     <div class="gradient-bg">
         <NavBar />
-        <router-view />
+            <router-view />
         <Footer />
     </div>
 

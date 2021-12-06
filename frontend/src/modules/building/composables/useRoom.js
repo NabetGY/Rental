@@ -12,14 +12,11 @@ const useRoom = () => {
         return resp
     }
 
-    const getUserPublications = async() => {
+    const updateRoom = async( Room ) => {
 
-        const email = computed(() => store.getters['auth/getEmail']).value
-
-        await store.dispatch('building/getMyPublications', email )
-
-        return email
+        const resp = await store.dispatch('building/updatePublication', Room )
         
+        return resp
     }
 
 
@@ -36,6 +33,12 @@ const useRoom = () => {
         
     }
 
+    const deleteRoom = async( id ) => {
+        const resp = await store.dispatch('building/deleteRoom', id)
+        return resp
+        
+    }
+
     const logout = () => {
         store.commit('auth/logout')
         store.commit('journal/clearEntries')
@@ -43,17 +46,45 @@ const useRoom = () => {
         
     }
 
-    const clearUserPublications = () => {
-        store.commit('building/clearMyPublications')   
+
+
+    const getUserPublications = async() => {
+
+        const email = computed(() => store.getters['auth/getEmail']).value
+
+        await store.dispatch('building/getMyPublications', email )
+
+        return email
+        
     }
+
+    const clearUserPublications = () => {
+        store.commit('building/deleteRoom')   
+    }
+
+
+    const getPublications = async() => {
+
+        await store.dispatch('building/getAllPublications' )
+
+    }
+
+    const clearPublications = () => {
+        store.commit('building/deleteRoom')   
+    }
+
 
     return {
         getUserPublications,
         clearUserPublications,
+        getPublications,
+        clearPublications,
         checkAuthStatus,
         createRoom,
+        updateRoom,
         loginUser,
         logout,
+        deleteRoom,
         authStatus: computed( () => store.getters['auth/currentState']),
         username: computed( () => store.getters['auth/username']),
 

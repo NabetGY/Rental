@@ -7,18 +7,40 @@ import rentalApi from "@/api/rentalApi"
 
 export const createUser = async ( { commit }, user ) => {
 
-    const { username, email, password } = user
+    const { username, email, password, image_perfil, number_phone } = user
 
     try {
-        const { data } = await rentalApi.post('/user/user/', { email, password, username })
+        const { data } = await rentalApi.post('/user/register/', { email, password, username, image_perfil, number_phone })
         
         const { message } = data
-
-        //await rentalApi.post(':update', { displayName: username, token, refreshToken })
 
         delete user.password
         
         commit('logout')
+        
+        return { ok: true, message: message }
+
+    } catch (error) {
+        return { ok: false, message: error.response.data.error.message}
+    }
+}
+
+export const updateUser = async ( { commit }, user ) => {
+
+    const { email, username, image_perfil, number_phone } = user
+
+    try {
+        const { data } = await rentalApi.put('/user/user/'+email+'/', { username, image_perfil, number_phone },
+            {
+                headers: {
+                    Authorization: 'Bearer '+localStorage.getItem('token')
+                }
+            }
+        )
+        
+        const { message } = data
+
+        commit('updateUser', { username, image_perfil, number_phone })
         
         return { ok: true, message: message }
 
@@ -32,18 +54,14 @@ export const signInUser = async ( { commit }, user ) => {
 
     const { username, password } = user
     try {
-        console.log('rentalaPI', rentalApi)
 
         const resp = await rentalApi.post('/user/login/', { username, password })
-        console.log('respuesta',resp)
+
         const { data } = resp
+
         const {  token, refreshToken , user, message } = data
 
-        console.log('data:', data)
-
         commit('loginUser', {  token, refreshToken , user })
-
-        
 
         return { ok: true, message: message }
         
@@ -58,17 +76,26 @@ export const signInUser = async ( { commit }, user ) => {
 export const userLogout = async ( { commit }, email ) => {
 
     try {
-        console.log('rentalaPI', rentalApi)
-
-        const resp = await rentalApi.post('/user/logout/', { email })
+        const resp = await rentalApi.post('/user/logout/', { email },
+            {
+                headers: {
+                    Authorization: 'Bearer '+localStorage.getItem('token')
+                }
+            }
+        )
         const { data } = resp
         const { message } = data
 
         commit('logout')
+        location.reload();
         return { ok: true, message: message }
         
     } catch (error) {
-        console.log(error.response)
+
+        if(error.response.status===401){
+            commit('logout')
+            location.reload();
+        }
         return { ok: false, message: error.response.data.error.message }
         
     }
@@ -92,9 +119,7 @@ export const checkAuthentication = async({ commit }) => {
 
     try {
 
-
         commit('loginUser', { user, token, refreshToken})
-
         return { ok : true }
 
     } catch (error) {

@@ -16,7 +16,7 @@ class CustomUserSerializer( serializers.ModelSerializer ):
 
     class Meta:
         model = UserProfile
-        fields = ( 'username', 'email' )
+        fields = ( 'username', 'email', 'image_perfil', 'number_phone' )
 
 
 class UserSerializer( serializers.ModelSerializer ):
@@ -44,4 +44,12 @@ class UpdateUserSerializer( serializers.ModelSerializer ):
 
     class Meta:
         model = UserProfile
-        fields = ( 'username', 'email' )
+        fields = ( 'username', 'image_perfil', 'number_phone' )
+        lookup_field = "email"
+
+
+class CardUserSerializer( serializers.ModelSerializer ):
+    
+    class Meta:
+        model = UserProfile
+        fields = ( 'username', 'image_perfil', 'number_phone', 'is_subscribed' )

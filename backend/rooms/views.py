@@ -6,7 +6,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import AccessToken
 
-from rooms.serializers import RoomSerializer, ImagesSerializer
+from rooms.serializers import RoomSerializer, RoomListSerializer, UpdateRoomSerializer
 from users.models import UserProfile
 from rooms.models import Images
 
@@ -30,12 +30,12 @@ class RoomViewSet( ModelViewSet ):
     def list( self, request ):
         email=request.GET.get('email')
         if(email==None):
-            rooms = self.get_serializer( self.get_queryset(), many = True )
+            rooms = RoomListSerializer( self.get_queryset(), many = True )
             return Response( rooms.data, status = status.HTTP_200_OK )
         else:
             user = self.get_user(email)
             query = self.serializer_class.Meta.model.objects.filter(user=user)
-            rooms = self.get_serializer( query, many = True )
+            rooms = RoomListSerializer( query, many = True )
             return Response( rooms.data, status = status.HTTP_200_OK )
 
 
@@ -54,11 +54,14 @@ class RoomViewSet( ModelViewSet ):
             serializer.errors, status = status.HTTP_400_BAD_REQUEST
         )
 
-    def update( self, request, pk = None ):
-        if self.get_queryset( pk ):
+    def update( self, request, *args, **kwargs ):
+        print('llegue')
+        id = request.data.get('id')
+        habitacion = self.get_queryset().filter(pk=id).first()
+        if habitacion:
             # send information to serializer referencing the instance
-            serializer = self.serializer_class(
-                self.get_queryset( pk ), data = request.data
+            serializer = UpdateRoomSerializer(
+                habitacion, data = request.data
             )
             if serializer.is_valid():
                 serializer.save()
@@ -66,3 +69,9 @@ class RoomViewSet( ModelViewSet ):
             return Response(
                 serializer.errors, status = status.HTTP_400_BAD_REQUEST
             )
+    def destroy(self, request, pk=None):
+        try:        
+            self.get_object().delete()
+            return Response({'message':'Publicacion eliminada correctamente!'}, status=status.HTTP_200_OK)       
+        except self.get_object().DoesNotExist:
+            return Response({'message':'', 'error':'Publicacion no encontrada!'}, status=status.HTTP_400_BAD_REQUEST)

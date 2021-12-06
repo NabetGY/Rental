@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { onUnmounted } from 'vue';
+/* import { onUnmounted } from 'vue';
 import useRoom from '@/modules/building/composables/useRoom';
 export default {
   setup() {
@@ -15,7 +15,7 @@ export default {
       clearUserPublications()
     })
   }
-}
+} */
 </script>
 
 <style scoped>

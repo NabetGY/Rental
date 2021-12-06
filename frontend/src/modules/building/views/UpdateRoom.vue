@@ -54,7 +54,7 @@
                   type="checkbox"
                   v-model="RoomForm.estacionamiento"
                   value="false"
-                  id="flexCheckIndeterminate" required
+                  id="flexCheckIndeterminate"
                 />
                 <label class="form-check-label" for="flexCheckIndeterminate">
                   Estacionamiento
@@ -113,7 +113,7 @@
         </div>
       </div>
       <div class="text-center my-2">
-      <button class="btn btn-success" type="submit">Publicar</button>
+      <button class="btn btn-success" type="submit">Actualizar Habitacion</button>
 
       </div>
     </form>
@@ -121,25 +121,32 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
 
-import UploadMulti from '../components/UploadMuti.vue'
-import uploadImage from '../helpers/uploadImage';
-import useRoom from '../composables/useRoom'
+/* import uploadImage from '../helpers/uploadImage';
+ */import useRoom from '../composables/useRoom'
 
 export default {
-  components:{ UploadMulti },
-  setup() {
+  components:{ 
+    UploadMulti: defineAsyncComponent( () => import('../components/UploadMuti.vue'))
+    },
+    props: {
+        id:{ 
+            type: String,
+            required: true
+        }
+    },
+  setup( props ) {
     const router = useRouter()
     const store = useStore()
     const files = ref([])
 
-    const { createRoom } = useRoom()
-
-    const RoomForm = ref(
+    const { updateRoom } = useRoom()
+    const RoomForm = computed( () => store.getters["building/getPublicationById"]( props.id ) )
+   /*  const RoomForm = ref(
       {
         titulo: "",
         area: 0,
@@ -153,16 +160,17 @@ export default {
         images: [],
         user:""
       }
-    )
+    ) */
 
     RoomForm.value.user=computed(() => store.getters['auth/getEmail']).value
     
     return {
+/*       room, */
       RoomForm,
       files,
       onSubmit : async() => 
               {
-                if (files.value.length){
+                if (RoomForm.value.images.length){
 
                   new Swal(
                     {
@@ -175,24 +183,24 @@ export default {
 
                   let lista = []
 
-                  for (const key in files.value) {
+                  /* for (const key in files.value) {
                     const elemento = await uploadImage(files.value[key])
                     const img =  {
                       image: elemento
                     }
                     lista.push(img)          
-                  }
+                  } */
                   console.log(lista)
-                  RoomForm.value.images=lista
+                  /* RoomForm.value.images=lista */
 
                   console.log(RoomForm.value)
 
-                  const { ok, message } = await createRoom( RoomForm.value )
+                  const { ok, message } = await updateRoom( RoomForm.value )
 
                   if ( !ok ) {
                       Swal.fire('Error', message, 'error')
                   } else {
-                      Swal.fire('Guardado', 'Tu habitacion ha sido registrada con exito!', 'success')
+                      Swal.fire('Guardado', 'Tu habitacion ha sido actualizada con exito!', 'success')
                       router.push({ name: 'my-publications' }) 
                   }
                 }

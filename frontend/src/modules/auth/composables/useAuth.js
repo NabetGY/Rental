@@ -12,6 +12,13 @@ const useAuth = () => {
         return resp
     }
 
+    const updateUser = async( user ) => {
+
+        const resp = await store.dispatch('auth/updateUser', user )
+        
+        return resp
+    }
+
 
     const loginUser = async( user ) => {
 
@@ -38,10 +45,14 @@ const useAuth = () => {
     return {
         checkAuthStatus,
         createUser,
+        updateUser,
         loginUser,
         logout,
         authStatus: computed( () => store.getters['auth/currentState']),
         username: computed( () => store.getters['auth/username']),
+        img_profile : computed( () => store.getters['auth/img_profile']),
+        number_phone : computed( () => store.getters['auth/number_phone']),
+        email : computed( () => store.getters['auth/getEmail']),
         authToken: computed( () => store.getters['auth/getAuthToken']),
 
     }

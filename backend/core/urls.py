@@ -23,13 +23,14 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from users.views import Login, Logout
+from users.views import Login, Logout, Register, pago
 
 urlpatterns = [
     path( 'admin/', admin.site.urls ),
     path( 'api-auth/', include( 'rest_framework.urls' ) ),
     path( 'user/login/', Login.as_view(), name = 'login' ),
     path( 'user/logout/', Logout.as_view(), name = 'logout' ),
+    path( 'user/register/', Register.as_view(), name = 'register' ),
     path( 'user/', include( 'users.routers' ) ),
     path( 'rooms/', include( 'rooms.routers' ) ),
     path(
@@ -42,6 +43,8 @@ urlpatterns = [
         TokenRefreshView.as_view(),
         name = 'token_refresh'
     ),
+    path( 'user/pago/', pago, name = 'pago' ),
+    
 ]
 
 if settings.DEBUG:

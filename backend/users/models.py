@@ -35,6 +35,11 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_subscribed = models.BooleanField(default=False)
+    image_perfil = models.URLField()
+    number_phone = models.CharField(max_length=10)
+    positive_points = models.IntegerField(default=0)
+    negative_points = models.IntegerField(default=0)
 
     objects = UserProfileManager()
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="scroll py-3">
     <router-view />
   </div>
 </template>
@@ -11,12 +11,8 @@ export default {
 </script>
 
 <style scoped>
-
-/* .wrapper {
-    
-    height: calc( 100vh - 178.5px);
-    overflow: auto;
-
-} */
-
+.scroll {
+  overflow-y: scroll;
+  height: calc(100vh - 180px);
+}
 </style>

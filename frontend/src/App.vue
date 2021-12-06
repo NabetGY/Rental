@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, onUnmounted } from "vue";
+import useRoom from '@/modules/building/composables/useRoom';
 /* import useAuth from './modules/auth/composables/useAuth'
  */
 export default {
@@ -22,6 +23,11 @@ export default {
   setup(){
 /*     const { checkAuthStatus } = useAuth()
     checkAuthStatus() */
+    const { getPublications, clearPublications } = useRoom()
+    getPublications()
+    onUnmounted (() => {
+      clearPublications()
+    })
 
   }
 };

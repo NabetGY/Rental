@@ -13,7 +13,6 @@ let user = localStorage.getItem('user')
 
 const authApi = axios.create({
     baseURL,
-    headers:{Authorization: `Bearer ${token}`}
 });
 
 authApi.interceptors.request.use(async req => {

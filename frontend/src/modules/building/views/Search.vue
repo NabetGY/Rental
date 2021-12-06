@@ -47,112 +47,9 @@
             </div>
 
             <div class="col-6">
-                <h2>Resultados de la busqueda...</h2>
-
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 bg-dark">
-                            <img src="https://cdn.pixabay.com/photo/2016/11/18/17/20/living-room-1835923_960_720.jpg"
-                             class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body mb-2">
-                                <h5 class="card-title">$100.000</h5>
-                                <h6 class="card-text">Habitacion</h6>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i>
-                                    Pereira - 
-                                    <small class="text-muted text-end">14 de oct</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col mb-3" v-for="room of rooms" :key="room.id">
+                    <RoomCard :room="room" />
                 </div>
-
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 bg-dark">
-                            <img src="https://cdn.pixabay.com/photo/2017/08/01/12/43/kitchen-2565105_960_720.jpg"
-                             class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body mb-2">
-                                <h5 class="card-title">$200.000</h5>
-                                <h6 class="card-text">Habitacion</h6>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i>
-                                    Pereira - 
-                                    <small class="text-muted text-end">14 de oct</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 bg-dark">
-                            <img src="https://cdn.pixabay.com/photo/2015/10/20/18/57/furniture-998265_960_720.jpg"
-                             class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body mb-2">
-                                <h5 class="card-title">$150.000</h5>
-                                <h6 class="card-text">Habitacion</h6>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i>
-                                    Pereira - 
-                                    <small class="text-muted text-end">14 de oct</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 bg-dark">
-                            <img src="https://cdn.pixabay.com/photo/2014/12/27/14/37/living-room-581073_960_720.jpg"
-                             class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body mb-2">
-                                <h5 class="card-title">$180.000</h5>
-                                <h6 class="card-text">Habitacion</h6>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i>
-                                    Pereira - 
-                                    <small class="text-muted text-end">14 de oct</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4 bg-dark">
-                            <img src="https://cdn.pixabay.com/photo/2015/04/20/06/46/office-730681_960_720.jpg"
-                             class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body mb-2">
-                                <h5 class="card-title">$200.000</h5>
-                                <h6 class="card-text">Habitacion</h6>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i>
-                                    Pereira - 
-                                    <small class="text-muted text-end">14 de oct</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
 
             <div class="col">
@@ -176,8 +73,30 @@
 </template>
 
 <script>
-export default {
+import { computed, defineAsyncComponent } from 'vue'
+import { useStore } from 'vuex'
 
+export default {
+    components: {
+        RoomCard: defineAsyncComponent( () =>
+            import("@/modules/building/components/RoomCard.vue")
+    )
+  },
+    props: {
+            palabra:{ 
+                type: String,
+                required: true
+            }
+        },
+    setup( props ) {
+        const store = useStore()
+        console.log(props.palabra)
+        const rooms = computed( () => store.getters["building/getPublicationsByWord"]( props.palabra ) )
+
+        return{
+            rooms
+        }
+    }
 }
 </script>
 

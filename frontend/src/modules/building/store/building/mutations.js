@@ -9,7 +9,7 @@ export const setPublications = (state, publications) => {
     state.isLoading = false
 }
 
-export const updateEntry = (state, entry) => {
+export const updateMyPublication = (state, entry) => {
 
     const idx = state.publications.map(e => e.id).indexOf(entry.id)
     state.publications[idx] = entry
@@ -22,7 +22,7 @@ export const addMyPublication = (state, myPublication) => {
 
 }
 
-export const deleteEntry = (state, id) => {
+export const deleteRoom = (state, id) => {
 
     state.publications = state.publications.filter(entry => entry.id !== id)
 
