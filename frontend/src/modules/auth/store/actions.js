@@ -1,4 +1,5 @@
-import rentalApi from "@/api/rentalApi"
+/* import rentalApi from "@/api/rentalApi"
+ */import axios from 'axios';
 
 /* export const myAction = async({ commit }) => {
 
@@ -10,7 +11,7 @@ export const createUser = async ( { commit }, user ) => {
     const { username, email, password, image_perfil, number_phone } = user
 
     try {
-        const { data } = await rentalApi.post('/user/register/', { email, password, username, image_perfil, number_phone })
+        const { data } = await axios.post('https://lumayo-arrendamientos.herokuapp.com/user/register/', { email, password, username, image_perfil, number_phone })
         
         const { message } = data
 
@@ -21,6 +22,10 @@ export const createUser = async ( { commit }, user ) => {
         return { ok: true, message: message }
 
     } catch (error) {
+        console.log('error')
+
+        commit('logout')
+        location.reload();
         return { ok: false, message: error.response.data.error.message}
     }
 }
@@ -30,7 +35,7 @@ export const updateUser = async ( { commit }, user ) => {
     const { email, username, image_perfil, number_phone } = user
 
     try {
-        const { data } = await rentalApi.put('/user/user/'+email+'/', { username, image_perfil, number_phone },
+        const { data } = await axios.put('https://lumayo-arrendamientos.herokuapp.com/user/user/'+email+'/', { username, image_perfil, number_phone },
             {
                 headers: {
                     Authorization: 'Bearer '+localStorage.getItem('token')
@@ -45,6 +50,10 @@ export const updateUser = async ( { commit }, user ) => {
         return { ok: true, message: message }
 
     } catch (error) {
+        console.log('error')
+
+        /* commit('logout')
+        location.reload(); */
         return { ok: false, message: error.response.data.error.message}
     }
 }
@@ -55,18 +64,21 @@ export const signInUser = async ( { commit }, user ) => {
     const { username, password } = user
     try {
 
-        const resp = await rentalApi.post('/user/login/', { username, password })
+        const resp = await axios.post('https://lumayo-arrendamientos.herokuapp.com/user/login/', { username, password })
 
         const { data } = resp
 
         const {  token, refreshToken , user, message } = data
-
+        
         commit('loginUser', {  token, refreshToken , user })
 
         return { ok: true, message: message }
         
     } catch (error) {
-        console.log(error.response)
+        /* commit('logout')
+        location.reload(); */
+        console.log('error')
+
         return { ok: false, message: error.response.data.error.message }
         
     }
@@ -76,7 +88,7 @@ export const signInUser = async ( { commit }, user ) => {
 export const userLogout = async ( { commit }, email ) => {
 
     try {
-        const resp = await rentalApi.post('/user/logout/', { email },
+        const resp = await axios.post('https://lumayo-arrendamientos.herokuapp.com/user/logout/', { email },
             {
                 headers: {
                     Authorization: 'Bearer '+localStorage.getItem('token')
@@ -91,12 +103,11 @@ export const userLogout = async ( { commit }, email ) => {
         return { ok: true, message: message }
         
     } catch (error) {
-
-        if(error.response.status===401){
+            console.log('error')
             commit('logout')
-            location.reload();
-        }
-        return { ok: false, message: error.response.data.error.message }
+            location.reload(); 
+        
+        return { ok: false, message: 'error' }
         
     }
 
@@ -109,20 +120,25 @@ export const checkAuthentication = async({ commit }) => {
 
     const token = localStorage.getItem('token')
     const refreshToken = localStorage.getItem('refreshToken')
-    const user = localStorage.getItem('refreshToken')
+    const user = localStorage.getItem('user')
 
 
     if (!token) {
+        console.log('token')
+
         commit('logout')
         return { ok: false, message: 'No hay token' }
     }
 
     try {
-
+        console.log('try')
+        console.log(user)
         commit('loginUser', { user, token, refreshToken})
         return { ok : true }
 
     } catch (error) {
+        console.log('error')
+
         commit('logout')
         return { ok: false, message: error.response.data.error.message }
 

@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import dayjs from 'dayjs'
 
 
-const baseURL = 'http://127.0.0.1:8000'
+const baseURL = 'https://lumayo-arrendamientos.herokuapp.com'
 
 let token = localStorage.getItem('token')
 let refreshToken = localStorage.getItem('refreshToken')

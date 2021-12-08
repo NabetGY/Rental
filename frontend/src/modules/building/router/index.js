@@ -1,3 +1,4 @@
+import isAuthenticatedGuard from '@/modules/auth/router/auth-guard'
 
 
 export default {
@@ -7,6 +8,7 @@ export default {
         {
             path: '/my-publications',
             name: 'my-publications',
+            beforeEnter: [ isAuthenticatedGuard ],
             component: () => import(/* webpackChunkName: "Mypublications" */ '@/modules/building/views/MyPublications.vue'),
         },
         {
@@ -22,7 +24,8 @@ export default {
         {
             path: '/register-post',
             name: 'register-post',
-            component: () => import(/* webpackChunkName: "registerPost" */ '@/modules/building/views/RegisterRoom.vue'),
+/*             beforeEnter: [ isAuthenticatedGuard ],
+ */            component: () => import(/* webpackChunkName: "registerPost" */ '@/modules/building/views/RegisterRoom.vue'),
         },
         {
             path: '/search/:palabra',
@@ -37,7 +40,8 @@ export default {
         {
             path: '/updateRoom/:id',
             name: 'updateRoom',
-            component: () => import(/* webpackChunkName: "updateRoom" */ '@/modules/building/views/UpdateRoom.vue'),
+/*             beforeEnter: [ isAuthenticatedGuard ],
+ */            component: () => import(/* webpackChunkName: "updateRoom" */ '@/modules/building/views/UpdateRoom.vue'),
             props: ( route )=> {
                 return {
                     id: route.params.id

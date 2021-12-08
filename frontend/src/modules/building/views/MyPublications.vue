@@ -55,7 +55,7 @@ export default {
 
     const options1 = { style: 'currency', currency: 'COP' };
     const numberFormat1 = new Intl.NumberFormat('es-CO', options1);
-    const myPublications = computed(() => store.getters['building/getMyItems'])
+    const myPublications = computed(() => store.getters['building/getMyItems'](store.state.auth.username))
 /*     const precio = numberFormat1.format(room.value.precio)
  */    return {
           myPublications,

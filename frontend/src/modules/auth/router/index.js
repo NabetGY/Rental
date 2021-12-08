@@ -1,6 +1,5 @@
-
-
-export default {
+/* import isAuthenticatedGuard from '@/modules/auth/router/auth-guard'
+ */export default {
     name: 'auth',
     component: () => import(/* webpackChunkName: "auth" */ '@/modules/auth/layouts/AuthLayout.vue'),
     children: [
@@ -17,7 +16,8 @@ export default {
         {
             path: '/profile',
             name: 'profile',
-            component: () => import(/* webpackChunkName: "profile" */ '@/modules/auth/views/Profile.vue'),
+/*             beforeEnter: [ isAuthenticatedGuard ],
+ */            component: () => import(/* webpackChunkName: "profile" */ '@/modules/auth/views/Profile.vue'),
         },
     ]
 }

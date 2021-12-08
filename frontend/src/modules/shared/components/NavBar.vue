@@ -26,18 +26,25 @@
               <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </li>
-          
-          <li class="nav-item">
-            <router-link :to="{ name: 'register-post' }" class="nav-link" href="#">
-              <button class="btn btn-warning">Publicar Habitacion!</button>
-            </router-link>
-          </li>
-          <li v-if="authStatus === 'no-authenicate'" class="nav-item ms-2">
-            <button @click="goToLogin" type="button" class="btn btn-primary">
-              Iniciar Sesion
-            </button>
-          </li>
+        
+          <template v-if="authStatus === 'no-authenicate'" >
+            <li class="nav-item">
+              <button class="btn btn-warning" @click="goToLogin">
+                Publicar Habitacion!
+              </button>
+            </li>
+            <li class="nav-item ms-2">
+              <button @click="goToLogin" type="button" class="btn btn-primary">
+                Iniciar Sesion
+              </button>
+            </li>
+          </template>
           <template v-else >
+              <li class="nav-item">
+                <router-link :to="{ name: 'register-post' }" class="nav-link" href="#">
+                  <button class="btn btn-warning">Publicar Habitacion!</button>
+                </router-link>
+              </li>
               <li class="nav-item dropdown mx-3">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <img :src="img_profile" class="avatar" alt="Avatar">

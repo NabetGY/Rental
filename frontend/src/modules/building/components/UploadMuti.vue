@@ -1,10 +1,11 @@
 <style scoped>
 input[type="file"] {
   position: absolute;
-  top: -500px;
+  top: -150px;
 }
 div.file-listing img {
-  max-width: 90%;
+  height: 30%;
+  border-radius: 5%;
 }
 </style>
 
@@ -35,8 +36,8 @@ div.file-listing img {
             v-bind:key="'file-' + key"
             class="col-3 file-listing"
             >
-            {{ file.name }}
             <img class="preview" v-bind:id="'image-' + parseInt(key)" />
+            <button :id="key" class="btn btn-danger mt-1" @click="deleteFiles(key)">Eliminar</button>
             </div>
         
     </div>
@@ -73,7 +74,39 @@ export default {
 
     /* Adds a file */
     function addFiles() {
+      console.log(files.value)
         document.getElementById("multiple-image-preview-files").click();
+    }
+
+
+    function deleteFiles(id) {
+        /* Get the uploaded files from the input. */
+/*         let uploadedFiles = event.target.files; */
+         console.log(files.value)
+
+         
+        let newFiles = []
+        if(files.value.lenght !== 1)
+        {  for (let i = 0; i < files.value.length; i++) {
+            if (files.value[i] !== files.value[id]) {
+                newFiles.push(files.value[i]);
+            }}
+            files.value = newFiles
+            }
+          else{
+            files.value = []
+          }
+          console.log(newFiles)
+          console.log('espera')
+          setTimeout(() => {  console.log(files.value); }, 2000);
+
+
+        /* Adds the uploaded file to the files array */
+/*         for (var i = 0; i < uploadedFiles.length; i++) {
+            files.value.push(uploadedFiles[i]);
+        }
+        /* Generate image previews for the uploaded files */
+        // getImagePreviews(); 
     }
 
 
@@ -141,6 +174,7 @@ export default {
     return {
         files,
         addFiles,
+        deleteFiles,
         submitFiles,
         handleFilesUpload,
         getImagePreviews,

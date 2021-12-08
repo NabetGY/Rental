@@ -42,10 +42,11 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import useAuth from '../composables/useAuth'
 import Swal from 'sweetalert2'
 import uploadImage from '../../building/helpers/uploadImage'
+import { useStore } from 'vuex'
 
 export default {
 
@@ -54,19 +55,23 @@ export default {
 
     let file = ref(null)
 
-    const { username, email, img_profile, number_phone, updateUser } = useAuth()
+    const { updateUser } = useAuth()
+      
+    const store = useStore()
+     
     const form = ref(
       {
-        email: email.value,
-        username: username.value,
-        number_phone: number_phone.value,
-        image_perfil: img_profile.value
+        email:  store.state.auth.email,
+        username:  store.state.auth.username,
+        number_phone:  store.state.auth.number_phone,
+        image_perfil:  store.state.auth.img_profile
       }
     )
+
     return {
       form,
       file,
-      email,
+      email: computed(() => store.state.auth.email),
       onFileChange: (e) => {
             let files = e.target.files || e.dataTransfer.files;
             if (!files.length)
@@ -74,7 +79,6 @@ export default {
             file = files[0]
         },
       onSubmit: async() => {
-
               if (file.value !== null)
                   {
                     const elemento = await uploadImage(file)

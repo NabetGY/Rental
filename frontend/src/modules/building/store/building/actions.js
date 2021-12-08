@@ -1,12 +1,15 @@
-import rentalApi from '@/api/rentalApi'
-
+/* import rentalApi from '@/api/rentalApi'
+ */
 /* export const myAction = async({ commit }) => {
 
 } */
+
+import axios from "axios"
+
 export const getMyPublications = async ({ commit }, email) => {
 
 
-    const { data } = await rentalApi.get('/rooms/rooms/?email='+email,
+    const { data } = await axios.get('https://lumayo-arrendamientos.herokuapp.com/rooms/rooms/?email='+email,
         {
             headers: {
                 Authorization: 'Bearer '+localStorage.getItem('token')
@@ -34,7 +37,10 @@ export const getMyPublications = async ({ commit }, email) => {
 export const getAllPublications = async ({ commit } ) => {
 
 
-    const { data } = await rentalApi.get('/rooms/rooms/')
+    const aux = await axios.get('https://lumayo-arrendamientos.herokuapp.com/rooms/rooms/')
+
+    console.log(aux)
+    const data = aux.data
 
     if (!data) {
         commit('building/setPublications', [])
@@ -55,7 +61,7 @@ export const getAllPublications = async ({ commit } ) => {
 export const deleteRoom = async ({ commit }, id) => {
 
     try {
-        const { data } = await rentalApi.delete('/rooms/rooms/'+id,
+        const { data } = await axios.delete('https://lumayo-arrendamientos.herokuapp.com/rooms/rooms/'+id,
             {
                 headers: {
                     Authorization: 'Bearer '+localStorage.getItem('token')
@@ -71,6 +77,8 @@ export const deleteRoom = async ({ commit }, id) => {
 
         } 
     catch (error) {
+        commit('logout')
+        location.reload();
         return { ok: false, message: error.response.data.error.message}
     }
 }
@@ -98,7 +106,7 @@ export const createPublication = async ({ commit }, publication) => {
     }
 
     try {
-        const { data } = await rentalApi.post(`/rooms/rooms/`, dataToSave,
+        const { data } = await axios.post(`https://lumayo-arrendamientos.herokuapp.com/rooms/rooms/`, dataToSave,
             {
                 headers: {
                     Authorization: 'Bearer '+localStorage.getItem('token')
@@ -111,6 +119,8 @@ export const createPublication = async ({ commit }, publication) => {
         return {ok: true, message: data.message }
     } catch (error) {
         console.log(error.response)
+        commit('logout')
+        location.reload();
         return { ok: false, message: error.response.data.error.message }
     }
 }
@@ -128,7 +138,7 @@ export const updatePublication = async ({ commit }, publication) => {
     }
 
     try {
-        const { data } = await rentalApi.put("/rooms/rooms/"+id+'/', dataToSave,
+        const { data } = await axios.put("https://lumayo-arrendamientos.herokuapp.com/rooms/rooms/"+id+'/', dataToSave,
             {
                 headers: {
                     Authorization: 'Bearer '+localStorage.getItem('token')
@@ -141,6 +151,8 @@ export const updatePublication = async ({ commit }, publication) => {
         return {ok: true, message: data.message }
     } catch (error) {
         console.log(error.response)
+        commit('logout')
+        location.reload();
         return { ok: false, message: error.response.data.error.message }
     }
 }

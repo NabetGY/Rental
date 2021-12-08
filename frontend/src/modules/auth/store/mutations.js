@@ -4,7 +4,7 @@
 } */
 
 export const loginUser = ( state, { user, token, refreshToken } ) => {
-
+    console.log('en loginsuser mutations')
     if ( token ) {
        localStorage.setItem('token', token)
        state.token = token
@@ -16,9 +16,9 @@ export const loginUser = ( state, { user, token, refreshToken } ) => {
     }
 
     if ( user ) {
-        console.log(user)
         const {username, email, image_perfil, number_phone} = user
         localStorage.setItem('username', username)
+        localStorage.setItem('user', JSON.stringify(user))
         localStorage.setItem('email', email)
         localStorage.setItem('img_profile', image_perfil)
         localStorage.setItem('number_phone', number_phone)
@@ -28,11 +28,11 @@ export const loginUser = ( state, { user, token, refreshToken } ) => {
         state.img_profile = image_perfil
         state.number_phone = number_phone
 
-
+        state.status = 'authenticated'
+        state.checking = false
     }
     
-    state.status = 'authenticated'
-    state.checking = false
+    
 }
 
 export const updateUser = ( state, { username, image_perfil, number_phone } ) => {
@@ -48,13 +48,12 @@ export const updateUser = ( state, { username, image_perfil, number_phone } ) =>
 }
 
 export const logout = ( state ) => {
-    state.status= 'no-authenicate'
+    state.status = 'no-authenicate'
     state.user= null
     state.token = null
     state.refreshToken= null
     state.img_profile = null
     state.number_phone = null
-
 
     localStorage.removeItem('user')
     localStorage.removeItem('email')
@@ -63,6 +62,10 @@ export const logout = ( state ) => {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('img_profile')
     localStorage.removeItem('number_phone')
+
+
+
+
 
 
 

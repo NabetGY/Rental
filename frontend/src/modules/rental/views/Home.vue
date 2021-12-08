@@ -1,10 +1,14 @@
 <template>
-  <div class="container m-5">
-    <div class="row">
-      <div class="col mb-3" v-for="room of publicationsPro" :key="room.id">
+  <div class="container">
+    <div class="row contorno">
+      
+      <h1>Los mas populares</h1>
+     <div class="col mb-3 ms-1" v-for="room of publicationsPro" :key="room.id">
         <RoomCard :room="room" />
       </div>
-      <div class="col mb-3" v-for="room of publications" :key="room.id">
+    </div>
+    <div class="row mt-3">
+      <div class="col mb-3 ms-1" v-for="room of publications" :key="room.id">
         <RoomCard :room="room" />
       </div>
     </div>
@@ -39,4 +43,11 @@ export default {
 
 <style>
 
+  .contorno{
+        border: none;
+        border-radius: 2pt;
+        box-shadow:  0 0 3pt 2pt #FFDF00;
+        outline: none;
+        transition: .1s;
+  }
 </style>

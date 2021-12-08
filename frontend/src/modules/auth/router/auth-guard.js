@@ -6,7 +6,7 @@ const isAuthenticatedGuard = async( to, from, next )  => {
     console.log(to, from)
 
     const { ok } = await store.dispatch('auth/checkAuthentication')
-
+    console.log(ok)
     if (ok) {
         next()
     } else {

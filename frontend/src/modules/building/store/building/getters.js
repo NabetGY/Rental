@@ -3,9 +3,9 @@
     return state
 } */
 
-export const getMyItems = (state) => {
+export const getMyItems = (state) =>  (username = '') => {
 
-    return state.publications
+    return state.publications.filter( publication => publication.user.username === username )
 
 }
 
@@ -22,7 +22,7 @@ export const getPublicationById = (state) => (id = 0) => {
 
 export const getPublicationBySubscribed = (state) => {
 
-    return state.publications.filter( publication => publication.is_subscribed === true )
+    return state.publications.filter( publication => publication.user.is_subscribed === true )
 
 
 }
