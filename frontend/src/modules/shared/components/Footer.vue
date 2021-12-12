@@ -6,35 +6,30 @@
     <div class="container">
       <div class="row">
         <div class="col-3 fw-bold align-self-center">
-          <a href="#" class="a-footer text-reset">PQRS</a>
+          <a href="https://lumayo.netlify.app/#services" class="a-footer text-reset">Servicios</a>
         </div>
         <div class="col-3 fw-bold align-self-center">
-          <a href="#" class="a-footer text-reset">Contáctanos</a>
+          <a href="https://lumayo.netlify.app/#contact" class="a-footer text-reset">Contáctanos</a>
         </div>
         <div class="col-3 fw-bold align-self-center">
-          <a href="#" class="a-footer text-reset">T&C</a>
+          <a href="https://lumayo.netlify.app/#details" class="a-footer text-reset">Detalles</a>
         </div>
         <ul class="col-3 list-unstyled mt-2">
           <li class="d-flex justify-content-between">
-            <a href="https://www.facebook.com/" class="text-reset"
+            <a href="https://www.facebook.com/Lumayo-Arrendamientos-108625001616477" class="text-reset"
               ><i class="bi bi-facebook"></i
             ></a>
-            <a href="https://www.twitter.com/" class="text-reset"
-              ><i class="bi bi-twitter"></i
-            ></a>
-            <a href="https://www.instagram.com/" class="text-reset"
+            <a href="https://www.instagram.com/lumayo.app" class="text-reset"
               ><i class="bi bi-instagram"></i
             ></a>
-            <a href="https://www.telegram.com/" class="text-reset"
-              ><i class="bi bi-telegram"></i
-            ></a>
+
           </li>
         </ul>
       </div>
     </div>
 
     <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2)">
-      © 2021 Copyright: LUMAYO APP
+      © 2021 Copyright: LUMAYO ARRENDAMIENTOS APP
     </div>
   </footer>
 </template>

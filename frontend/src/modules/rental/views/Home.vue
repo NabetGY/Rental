@@ -42,6 +42,13 @@ export default {
 </script>
 
 <style>
+    .card:hover {
+         transform: scale(1.1);
+         box-shadow: 1px 8px 20px grey;
+    }
+     .card.hover--ending {
+         transition: box-shadow 0.6s ease-in;
+    }
 
   .contorno{
         border: none;

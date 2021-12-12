@@ -39,7 +39,7 @@ BASE_DIR = Path( __file__ ).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -63,7 +63,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-
+    'whitenoise.middleware.WhiteNoiseMiddleware',
    # Corsheaders
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -106,13 +106,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+''' import dj_database_url
+ '''
 DATABASES = {
-    'default':
-        {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd6v5qll4d4ebcg',
+        'USER': 'wppfbvymgwqsct',
+        'PASSWORD': 'adc198879275c9c6cd923cb81c01a40ab244a851e41232da2d3ea1ae14c7c6f6',
+        'HOST': 'ec2-34-195-69-118.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
 }
+
+''' import dj_database_url
+
+db_from_env = dj_database_url.config(default='postgres://zfrjzubbdxwhbe:131b705fcf5aea1685e838bd0a6bea83ceabcb637879dcbcf59f55985d9eed4b@ec2-34-195-69-118.compute-1.amazonaws.com:5432/d5r70gcseie9d1')
+DATABASES['default'].update(db_from_env) '''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -139,10 +149,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'es'
+TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 
 USE_L10N = True
@@ -193,3 +201,4 @@ SIMPLE_JWT = {
 # Configure Django App for Heroku.
 
 django_heroku.settings(locals())
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

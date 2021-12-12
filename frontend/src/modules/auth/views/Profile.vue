@@ -33,7 +33,7 @@
         </div>
         <div class="col-12 text-center mt-3">
           <button type="submit" class="btn btn-primary ms-3">Actualizar Datos</button>
-          <button type="submit" class="btn btn-danger ms-3">Cancelar</button>
+          <button @click="getInicio" class="btn btn-danger ms-3">Cancelar</button>
         </div>
       </div>
     </div>
@@ -47,11 +47,14 @@ import useAuth from '../composables/useAuth'
 import Swal from 'sweetalert2'
 import uploadImage from '../../building/helpers/uploadImage'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
 
 
   setup() {
+
+    const router = useRouter()
 
     let file = ref(null)
 
@@ -69,6 +72,9 @@ export default {
     )
 
     return {
+      getInicio: () =>{
+        router.push({ name: 'home' })
+      },
       form,
       file,
       email: computed(() => store.state.auth.email),
@@ -99,6 +105,7 @@ export default {
                         allowOutsideClick:false
                     }
                     )
+                    router.push({ name: 'home' })
                 }
             },
     }

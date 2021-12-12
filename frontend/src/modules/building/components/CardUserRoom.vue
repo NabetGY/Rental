@@ -9,7 +9,7 @@
                 <div class="col-lg-8 col-md-8 col-12">
                     <h5 class="fw-bold">Informacion del arrendador</h5>
                     <div class="ps-3">
-                        <h6 class="mt-0 mb-0">Nombre de usuaro: <strong>{{ user.username }}</strong></h6>
+                        <h6 class="mt-0 mb-0">Nombre de usuario: <strong>{{ user.username }}</strong></h6>
                         <span >Valoracion:</span>
                         <div class="ratings ml-2"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div>
                         <div v-if="authStatus === 'no-authenicate'">
@@ -18,7 +18,10 @@
                             </button>
                         </div>
                         <div v-else>
-                            <h6><strong>Telefono: {{ user.number_phone }}</strong></h6>
+                            
+                            <h6><strong>Telefono: 
+                                <a :href="'https://api.whatsapp.com/send?phone=[57]['+user.number_phone+']' ">{{ user.number_phone }}</a>
+                                </strong></h6>
                         </div>
                     </div>
                 </div>                

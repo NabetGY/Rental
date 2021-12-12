@@ -98,16 +98,11 @@
             <div class="row mt-3">
               <label for=""><strong>Ubicación</strong></label>
               <input v-model="RoomForm.ubicacion" type="text" name="" id="" class="form-control" required />
-
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.845265490602!2d-75.69365866700417!3d4.796600867130791!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e38876503059207%3A0xd5671df2301e9a3b!2sUTP!5e0!3m2!1ses!2sco!4v1634777954543!5m2!1ses!2sco"
-                width="400"
-                height="300"
-                style="padding-left: 10px"
-                allowfullscreen=""
-                loading="lazy"
-              >
-              </iframe>
+            </div>
+            <div class="row mt-3">
+              <label for=""><strong>* Opcional</strong></label>
+              <BotonPago />
+              <span class="px-5">Con tu suscripcion a LUMAYO Arrendamientos tus publicaciones tendran mayor visibilidad en nuestra plataforma</span>
             </div>
           </div>
         </div>
@@ -121,7 +116,7 @@
 </template>
 
 <script>
-import { ref, computed, defineAsyncComponent } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
@@ -131,7 +126,9 @@ import useRoom from '../composables/useRoom'
 
 export default {
   components: {
-    UploadMulti: defineAsyncComponent( () => import('../components/UploadMuti.vue'))
+    UploadMulti: defineAsyncComponent( () => import('../components/UploadMuti.vue')),
+    BotonPago: defineAsyncComponent( () => import('../components/BotonPago.vue')),
+
   },
   setup() {
     const router = useRouter()
@@ -156,7 +153,7 @@ export default {
       }
     )
 
-    RoomForm.value.user=computed(() => store.getters['auth/getEmail']).value
+    RoomForm.value.user= store.state.auth.email
     
     return {
       RoomForm,
@@ -194,6 +191,7 @@ export default {
                   } else {
                       Swal.fire('Guardado', 'Tu habitacion ha sido registrada con exito!', 'success')
                       router.push({ name: 'my-publications' }) 
+                      location.reload();
                   }
                 }
                 else

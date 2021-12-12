@@ -24,8 +24,8 @@ export default {
         {
             path: '/register-post',
             name: 'register-post',
-/*             beforeEnter: [ isAuthenticatedGuard ],
- */            component: () => import(/* webpackChunkName: "registerPost" */ '@/modules/building/views/RegisterRoom.vue'),
+            beforeEnter: [ isAuthenticatedGuard ],
+            component: () => import(/* webpackChunkName: "registerPost" */ '@/modules/building/views/RegisterRoom.vue'),
         },
         {
             path: '/search/:palabra',
@@ -40,8 +40,8 @@ export default {
         {
             path: '/updateRoom/:id',
             name: 'updateRoom',
-/*             beforeEnter: [ isAuthenticatedGuard ],
- */            component: () => import(/* webpackChunkName: "updateRoom" */ '@/modules/building/views/UpdateRoom.vue'),
+            beforeEnter: [ isAuthenticatedGuard ],
+            component: () => import(/* webpackChunkName: "updateRoom" */ '@/modules/building/views/UpdateRoom.vue'),
             props: ( route )=> {
                 return {
                     id: route.params.id

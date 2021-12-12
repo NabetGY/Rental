@@ -1,5 +1,5 @@
 <template>
-    <a class="btn btn-prmary" id="checkout-btn" href="https://payco.link/1248086">pago</a>
+    <a target="_blank" class="btn btn-warning" id="checkout-btn" href="https://payco.link/1253183">Paga tu Suscripcion</a>
 </template>
 
 <script>

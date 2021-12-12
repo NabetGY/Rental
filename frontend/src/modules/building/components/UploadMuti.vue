@@ -34,7 +34,7 @@ div.file-listing img {
             <div
             v-for="(file, key) in files"
             v-bind:key="'file-' + key"
-            class="col-3 file-listing"
+            class="col-3 file-listing m-2"
             >
             <img class="preview" v-bind:id="'image-' + parseInt(key)" />
             <button :id="key" class="btn btn-danger mt-1" @click="deleteFiles(key)">Eliminar</button>
@@ -43,7 +43,7 @@ div.file-listing img {
     </div>
     <br />
     <div class="col">
-      <button class="btn btn-primary" v-on:click="addFiles()">Add Files</button>
+      <button class="btn btn-primary" v-on:click="addFiles()">Añadir imagenes</button>
     </div>
     <br />
     <div class="col">

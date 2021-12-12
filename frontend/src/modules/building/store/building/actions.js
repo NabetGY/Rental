@@ -39,7 +39,6 @@ export const getAllPublications = async ({ commit } ) => {
 
     const aux = await axios.get('https://lumayo-arrendamientos.herokuapp.com/rooms/rooms/')
 
-    console.log(aux)
     const data = aux.data
 
     if (!data) {
@@ -118,7 +117,6 @@ export const createPublication = async ({ commit }, publication) => {
     
         return {ok: true, message: data.message }
     } catch (error) {
-        console.log(error.response)
         commit('logout')
         location.reload();
         return { ok: false, message: error.response.data.error.message }
@@ -150,7 +148,6 @@ export const updatePublication = async ({ commit }, publication) => {
     
         return {ok: true, message: data.message }
     } catch (error) {
-        console.log(error.response)
         commit('logout')
         location.reload();
         return { ok: false, message: error.response.data.error.message }

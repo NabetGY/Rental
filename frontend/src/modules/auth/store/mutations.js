@@ -4,7 +4,6 @@
 } */
 
 export const loginUser = ( state, { user, token, refreshToken } ) => {
-    console.log('en loginsuser mutations')
     if ( token ) {
        localStorage.setItem('token', token)
        state.token = token
@@ -28,9 +27,10 @@ export const loginUser = ( state, { user, token, refreshToken } ) => {
         state.img_profile = image_perfil
         state.number_phone = number_phone
 
-        state.status = 'authenticated'
-        state.checking = false
+       
     }
+    state.status = 'authenticated'
+    state.checking = false
     
     
 }

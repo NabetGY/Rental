@@ -74,13 +74,13 @@
                         </div>
                     </div>
                 </div>
-                <CardUserRoomVue :user="room.user" />
+                
             </div>
             <div class="col-6">
-                <div class="p-3 border bg-light"><label for=""><strong>Ubicación</strong></label>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.845265490602!2d-75.69365866700417!3d4.796600867130791!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e38876503059207%3A0xd5671df2301e9a3b!2sUTP!5e0!3m2!1ses!2sco!4v1634777954543!5m2!1ses!2sco" width="500" height="370" style="padding-left: 10px;" allowfullscreen="" loading="lazy">
-                    </iframe>
+                <div class="p-3 border bg-light mb-3"><label for=""><strong>Ubicación</strong></label>
+                    <p class="fw-normal ms-3">&nbsp;{{ room.ubicacion }}</p>
                 </div>
+                <CardUserRoomVue :user="room.user" />
             </div>
         </div>
     </div>

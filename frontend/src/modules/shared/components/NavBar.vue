@@ -53,6 +53,9 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                   <li><router-link :to="{ name: 'my-publications' }" class="dropdown-item" href="#">Mis Habitaciones</router-link></li>
                   <li><router-link :to="{ name: 'profile' }" class="dropdown-item" href="#">Mi Perfil</router-link></li>
+                  <li>
+                    <a target="_blank" class="btn btn-warning " id="checkout-btn" href="https://payco.link/1253183">Paga tu Suscripcion</a>
+                  </li>
                   <li><hr class="dropdown-divider"></li>
                   <li>
                     <button @click.prevent="onLogout" type="button" class="btn btn-primary ms-3 pt-1">

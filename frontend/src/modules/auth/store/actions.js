@@ -52,8 +52,8 @@ export const updateUser = async ( { commit }, user ) => {
     } catch (error) {
         console.log('error')
 
-        /* commit('logout')
-        location.reload(); */
+        commit('logout')
+        location.reload();
         return { ok: false, message: error.response.data.error.message}
     }
 }
@@ -75,8 +75,8 @@ export const signInUser = async ( { commit }, user ) => {
         return { ok: true, message: message }
         
     } catch (error) {
-        /* commit('logout')
-        location.reload(); */
+        commit('logout')
+        location.reload();
         console.log('error')
 
         return { ok: false, message: error.response.data.error.message }
@@ -120,7 +120,6 @@ export const checkAuthentication = async({ commit }) => {
 
     const token = localStorage.getItem('token')
     const refreshToken = localStorage.getItem('refreshToken')
-    const user = localStorage.getItem('user')
 
 
     if (!token) {
@@ -132,8 +131,12 @@ export const checkAuthentication = async({ commit }) => {
 
     try {
         console.log('try')
-        console.log(user)
-        commit('loginUser', { user, token, refreshToken})
+        const response = await axios.post(`https://lumayo-arrendamientos.herokuapp.com/api/token/refresh/`, {
+            refresh: refreshToken
+        });
+        const {  access, refresh  } = response.data
+        commit('loginUser', { user:false, token:access, refreshToken:refresh})
+        
         return { ok : true }
 
     } catch (error) {
